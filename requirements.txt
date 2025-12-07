@@ -1,0 +1,12 @@
+torch
+transformers
+datasets
+peft
+accelerate
+bitsandbytes
+evaluate
+scikit-learn
+matplotlib
+seaborn
+opencv-python
+tqdm
