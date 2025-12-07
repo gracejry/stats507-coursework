@@ -1,5 +1,4 @@
 from typing import Any
-
 import torch
 from peft import LoraConfig, TaskType, get_peft_model, PeftModel
 from transformers import BlipForConditionalGeneration
@@ -9,9 +8,6 @@ from transformers.models.blip.modeling_blip import (
 )
 
 from config import DEVICE, MODEL_ID
-
-
-# ---------- Patch BLIP forward ----------
 
 def _patch_blip_if_needed() -> None:
     """Patch BLIP vision & text forward to ignore extra kwargs."""
@@ -42,9 +38,6 @@ def _patch_blip_if_needed() -> None:
         BlipOriginal.forward = safe_blip_forward
         BlipOriginal._patched = True
         print("Applied patch for BlipForConditionalGeneration")
-
-
-# ---------- LoRA model helpers ----------
 
 def create_lora_model() -> BlipForConditionalGeneration:
     """Create BLIP model with LoRA adapters, ready for training."""
@@ -80,9 +73,6 @@ def load_lora_for_inference(adapter_path: str) -> PeftModel:
     model.to(DEVICE)
     model.eval()
     return model
-
-
-# ---------- Caption generation ----------
 
 def generate_caption(model, processor, image, max_length: int = 50, num_beams: int = 5) -> str:
     """Generate caption for a single PIL image."""
